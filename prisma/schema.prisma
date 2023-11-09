@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Age {
+  FILHOTE
+  ADULTO
+  SENIOR
+}
+
+enum Termperament {
+  CALMO
+  NEUTRO
+  TEMPERAMENTAL
+}
+
+enum Size {
+  PEQUENO
+  MEDIO
+  GRANDE
+}
+
+model Pet {
+  id          String       @id @default(uuid())
+  name        String
+  description String?
+  age         Age
+  temperament Termperament
+  size        Size
+  created_at  DateTime     @default(now())
+
+  @@map("pets")
+}
+
+model Organization {
+  id             String   @id @default(uuid())
+  name           String   @unique
+  email          String   @unique
+  whatsAppNumber String   @unique
+  password       String
+  address        String
+  postalCode     String
+  created_at     DateTime @default(now())
+
+  @@map("organizations")
+}
