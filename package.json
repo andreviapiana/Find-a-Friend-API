@@ -1,0 +1,17 @@
+{
+  "name": "find-a-friend-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint **/*.ts* --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rocketseat/eslint-config": "^2.1.0",
+    "@types/node": "^20.9.0",
+    "typescript": "^5.2.2"
+  }
+}
