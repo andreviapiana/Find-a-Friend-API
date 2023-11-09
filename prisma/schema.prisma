@@ -34,6 +34,9 @@ model Pet {
   size        Size
   created_at  DateTime     @default(now())
 
+  organization    Organization? @relation(fields: [organization_id], references: [id])
+  organization_id String?
+
   @@map("pets")
 }
 
@@ -42,10 +45,12 @@ model Organization {
   name           String   @unique
   email          String   @unique
   whatsAppNumber String   @unique
-  password       String
+  password_hash  String
   address        String
   postalCode     String
   created_at     DateTime @default(now())
+
+  Pets Pet[]
 
   @@map("organizations")
 }
