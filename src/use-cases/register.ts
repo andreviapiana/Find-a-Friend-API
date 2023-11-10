@@ -1,5 +1,6 @@
 import { hash } from 'bcryptjs'
 import { OrganizationsRepository } from '@/repositories/organizations-repository'
+import { OrganizationAlreadyExistsError } from './errors/organization-already-exists-error'
 
 interface RegisterUseCaseRequest {
   name: string
@@ -33,7 +34,7 @@ export class RegisterUseCase {
       )
 
     if (userWithSameInfos) {
-      throw new Error('Já existe uma organização com esses dados.')
+      throw new OrganizationAlreadyExistsError()
     }
 
     await this.organizationsRepository.create({

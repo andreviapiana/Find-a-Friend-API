@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { RegisterUseCase } from '@/use-cases/register'
 import { PrismaOrganizationsRepository } from '@/repositories/prisma/prisma-organizations-repository'
+import { OrganizationAlreadyExistsError } from '@/use-cases/errors/organization-already-exists-error'
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
   const registerBodySchema = z.object({
@@ -31,7 +32,11 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
       whatsAppNumber,
     })
   } catch (err) {
-    return reply.status(409).send()
+    if (err instanceof OrganizationAlreadyExistsError) {
+      return reply.status(409).send({ message: err.message })
+    }
+
+    throw err
   }
 
   return reply.status(201).send()
