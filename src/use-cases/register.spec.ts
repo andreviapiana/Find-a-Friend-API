@@ -62,7 +62,7 @@ describe('Register Use Case', () => {
       whatsAppNumber,
     })
 
-    expect(() =>
+    await expect(() =>
       registerUseCase.execute({
         name,
         email,
