@@ -1,6 +1,5 @@
-import { prisma } from '@/lib/prisma'
-import { PrismaOrganizationsRepository } from '@/repositories/prisma-organizations-repository'
 import { hash } from 'bcryptjs'
+import { OrganizationsRepository } from '@/repositories/organizations-repository'
 
 interface RegisterUseCaseRequest {
   name: string
@@ -12,38 +11,39 @@ interface RegisterUseCaseRequest {
   whatsAppNumber: string
 }
 
-export async function registerUseCase({
-  name,
-  email,
-  password,
-  city,
-  address,
-  postalCode,
-  whatsAppNumber,
-}: RegisterUseCaseRequest) {
-  const password_hash = await hash(password, 6)
+export class RegisterUseCase {
+  constructor(private organizationsRepository: OrganizationsRepository) {}
 
-  const userWithSameInfos = await prisma.organization.findUnique({
-    where: {
-      email,
-      name,
-      whatsAppNumber,
-    },
-  })
-
-  if (userWithSameInfos) {
-    throw new Error('Já existe uma organização com esses dados.')
-  }
-
-  const prismaOrganizationsRepository = new PrismaOrganizationsRepository()
-
-  await prismaOrganizationsRepository.create({
+  async execute({
     name,
     email,
-    password_hash,
+    password,
     city,
     address,
     postalCode,
     whatsAppNumber,
-  })
+  }: RegisterUseCaseRequest) {
+    const password_hash = await hash(password, 6)
+
+    const userWithSameInfos =
+      await this.organizationsRepository.findByEmailOrNameOrWhatsapp(
+        name,
+        email,
+        whatsAppNumber,
+      )
+
+    if (userWithSameInfos) {
+      throw new Error('Já existe uma organização com esses dados.')
+    }
+
+    await this.organizationsRepository.create({
+      name,
+      email,
+      password_hash,
+      city,
+      address,
+      postalCode,
+      whatsAppNumber,
+    })
+  }
 }
