@@ -1,15 +1,20 @@
 import { compare } from 'bcryptjs'
-import { expect, describe, it } from 'vitest'
-import { RegisterUseCase } from './register'
+import { expect, describe, it, beforeEach } from 'vitest'
+import { RegisterUseCase } from '@/use-cases/register'
 import { InMemoryOrganizationsRepository } from '@/repositories/in-memory/in-memory-organizations-repository'
 import { OrganizationAlreadyExistsError } from './errors/organization-already-exists-error'
 
-describe('Register Use Case', () => {
-  it('should to register', async () => {
-    const organizationsRepository = new InMemoryOrganizationsRepository()
-    const registerUseCase = new RegisterUseCase(organizationsRepository)
+let organizationsRepository: InMemoryOrganizationsRepository
+let sut: RegisterUseCase
 
-    const { organization } = await registerUseCase.execute({
+describe('Register Use Case', () => {
+  beforeEach(() => {
+    organizationsRepository = new InMemoryOrganizationsRepository()
+    sut = new RegisterUseCase(organizationsRepository)
+  })
+
+  it('should to register', async () => {
+    const { organization } = await sut.execute({
       name: 'Adote Pets',
       email: 'adote_pets@email.com',
       password: '123456',
@@ -23,10 +28,7 @@ describe('Register Use Case', () => {
   })
 
   it('should hash organization password upon registration', async () => {
-    const organizationsRepository = new InMemoryOrganizationsRepository()
-    const registerUseCase = new RegisterUseCase(organizationsRepository)
-
-    const { organization } = await registerUseCase.execute({
+    const { organization } = await sut.execute({
       name: 'Adote Pets',
       email: 'adote_pets@email.com',
       password: '123456',
@@ -45,14 +47,11 @@ describe('Register Use Case', () => {
   })
 
   it('should not be able to register with same email, name or whatsapp twice', async () => {
-    const organizationsRepository = new InMemoryOrganizationsRepository()
-    const registerUseCase = new RegisterUseCase(organizationsRepository)
-
     const name = 'Adote Pets'
     const email = 'adote_pets@email.com'
     const whatsAppNumber = '+558699999999'
 
-    await registerUseCase.execute({
+    await sut.execute({
       name,
       email,
       password: '123456',
@@ -63,7 +62,7 @@ describe('Register Use Case', () => {
     })
 
     await expect(() =>
-      registerUseCase.execute({
+      sut.execute({
         name,
         email,
         password: '123456',
