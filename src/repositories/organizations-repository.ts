@@ -8,4 +8,5 @@ export interface OrganizationsRepository {
     whatsAppNumber: string,
   ): Promise<Organization | null>
   findByEmail(email: string): Promise<Organization | null>
+  findById(id: string): Promise<Organization | null>
 }

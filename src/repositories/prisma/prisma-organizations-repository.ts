@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import { Prisma } from '@prisma/client'
+import { Organization, Prisma } from '@prisma/client'
 import { OrganizationsRepository } from '../organizations-repository'
 
 export class PrismaOrganizationsRepository implements OrganizationsRepository {
@@ -49,5 +49,9 @@ export class PrismaOrganizationsRepository implements OrganizationsRepository {
     })
 
     return organization
+  }
+
+  findById(id: string): Promise<Organization | null> {
+    throw new Error('Method not implemented.')
   }
 }
