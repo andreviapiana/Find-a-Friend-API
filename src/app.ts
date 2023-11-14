@@ -1,5 +1,6 @@
 import fastify from 'fastify'
 import { organizationRoutes } from '@/http/controllers/organizations/routes'
+import { petRoutes } from '@/http/controllers/pets/routes'
 import { ZodError } from 'zod'
 import { env } from '@/env'
 import fastifyJwt from '@fastify/jwt'
@@ -13,6 +14,9 @@ app.register(fastifyJwt, {
 
 // Rota de Criação de Organizações //
 app.register(organizationRoutes)
+
+// Rota de Criação de Pets //
+app.register(petRoutes)
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {

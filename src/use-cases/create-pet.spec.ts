@@ -3,6 +3,7 @@ import { InMemoryOrganizationsRepository } from '@/repositories/in-memory/in-mem
 import { expect, describe, it, beforeEach } from 'vitest'
 import { CreatePetUseCase } from './create-pet'
 import { hash } from 'bcryptjs'
+import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 let petsRepository: InMemoryPetsRepository
 let organizationsRepository: InMemoryOrganizationsRepository
@@ -23,7 +24,6 @@ describe('Create Pet Use Case', () => {
       address: 'Avenida Paulista, 52',
       postalCode: '01310‑900',
     })
-    console.log(organizationsRepository)
   })
 
   it('should to create pet', async () => {
@@ -37,5 +37,19 @@ describe('Create Pet Use Case', () => {
     })
 
     expect(pet.id).toEqual(expect.any(String))
+  })
+
+  it('should not be able to register a new pet without a valid organization', async () => {
+    // Criando um pet nesta organização
+    await expect(() =>
+      sut.execute({
+        name: 'Caramelinho',
+        description: 'Um doguinho para quem tem muito amor para dar',
+        age: 'FILHOTE',
+        temperament: 'CALMO',
+        size: 'MEDIO',
+        organization_id: 'invalid-organization-id',
+      }),
+    ).rejects.toBeInstanceOf(ResourceNotFoundError)
   })
 })
