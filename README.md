@@ -11,7 +11,7 @@ Find a Friend API.
 - [x] Deve ser possível se cadastrar como uma ORG;
 - [x] Deve ser possível visualizar detalhes de uma ORG;
 - [x] Deve ser possível realizar login como uma ORG;
-- [ ] Deve ser possível obter o perfil de uma organização logada;
+- [x] Deve ser possível obter o perfil de uma organização logada;
 
 ## RNs (Regras de negócio)
 
