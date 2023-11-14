@@ -27,7 +27,7 @@ export class InMemoryOrganizationsRepository
 
   async create(data: Prisma.OrganizationCreateInput) {
     const organization = {
-      id: 'user-1',
+      id: 'organization-test',
       name: data.name,
       email: data.email,
       password_hash: data.password_hash,
