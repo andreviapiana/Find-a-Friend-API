@@ -3,6 +3,7 @@ import { InMemoryPetsRepository } from '@/repositories/in-memory/in-memory-pets-
 import { InMemoryOrganizationsRepository } from '@/repositories/in-memory/in-memory-organizations-repository'
 import { GetSpecificPetUseCase } from './get-specific-pet'
 import { hash } from 'bcryptjs'
+import { PetNotExistingInDatabaseError } from './errors/pet-not-existing-in-database-error'
 
 // Cria as variavéis e faz a tipagem //
 let petRepository: InMemoryPetsRepository
@@ -48,5 +49,13 @@ describe('Get Specific Pet Use Case', () => {
     expect(pet.id).toEqual(expect.any(String))
     expect(pet.name).toEqual('Caramelinho')
     expect(pet.organization_id).toEqual('organization-test')
+  })
+
+  it('should not be possible to get a pet when submitting an invalid ID', async () => {
+    await expect(() =>
+      sut.execute({
+        petId: 'invalid-id',
+      }),
+    ).rejects.toBeInstanceOf(PetNotExistingInDatabaseError)
   })
 })
