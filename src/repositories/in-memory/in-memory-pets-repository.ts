@@ -1,6 +1,7 @@
 import { Pet, Prisma } from '@prisma/client'
-import { PetsRepository } from '../pets-repository'
+import { PetsRepository, SearchPetsProps } from '../pets-repository'
 import { randomUUID } from 'node:crypto'
+import { prisma } from '@/lib/prisma'
 
 export class InMemoryPetsRepository implements PetsRepository {
   public items: Pet[] = []
@@ -30,5 +31,25 @@ export class InMemoryPetsRepository implements PetsRepository {
     }
 
     return pet
+  }
+
+  async findManyByQuery({ age, temperament, size }: SearchPetsProps) {
+    let petsFiltered = this.items
+
+    if (temperament) {
+      petsFiltered = this.items.filter(
+        (item) => item.temperament === temperament,
+      )
+    }
+
+    if (age) {
+      petsFiltered = this.items.filter((item) => item.age === age)
+    }
+
+    if (size) {
+      petsFiltered = this.items.filter((item) => item.size === size)
+    }
+
+    return petsFiltered
   }
 }
