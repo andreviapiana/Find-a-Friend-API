@@ -13,11 +13,12 @@ export async function createPet(
     age: z.enum(['FILHOTE', 'ADULTO', 'SENIOR']),
     temperament: z.enum(['CALMO', 'NEUTRO', 'TEMPERAMENTAL']),
     size: z.enum(['PEQUENO', 'MEDIO', 'GRANDE']),
-    organization_id: z.string(),
   })
 
-  const { name, description, age, temperament, size, organization_id } =
+  const { name, description, age, temperament, size } =
     createPetBodySchema.parse(request.body)
+
+  const organizationId = request.user.sub
 
   try {
     const createPetUseCase = makeCreatePetUseCase()
@@ -29,7 +30,7 @@ export async function createPet(
       age,
       temperament,
       size,
-      organization_id,
+      organization_id: organizationId,
     })
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
