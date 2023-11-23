@@ -115,7 +115,7 @@ ___
 
 Instale o [Insomnia](https://insomnia.rest/download), e então clique no botão a seguir para abrir as requisições já configuradas.
 
-[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Gympass-API-Solid&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fandreviapiana%2FFinda-a-Friend-API%2Fmaster%2Fexport%3Ftoken%3DGHSAT0AAAAAACFDS6KMMHVECV6EDCDCZNKEZKL2LHQ)
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Find%20a%20Friend%20API&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fandreviapiana%2FFind-a-Friend-API%2Fmaster%2Fexport)
 
 #### 🚀 Guia de Uso das Requisições do Insomnia
 As requisições já vão pré-configuradas, basta realizar apenas alguns ajustes pois os Tokens e IDs são aleatórios.
