@@ -24,7 +24,7 @@ export async function createPet(
     const createPetUseCase = makeCreatePetUseCase()
 
     // Chama o caso de uso e passa os params //
-    await createPetUseCase.execute({
+    const pets = await createPetUseCase.execute({
       name,
       description,
       age,
@@ -32,16 +32,15 @@ export async function createPet(
       size,
       organization_id: organizationId,
     })
+    // Envia a resposta pelo Body para usar nos testes //
+    response.status(201).send({ pets })
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return response.status(409).send({
         message: err.message,
       })
     }
-
     // Retorna um erro genérico //
     throw err
   }
-
-  return response.status(201).send()
 }
