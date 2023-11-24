@@ -9,7 +9,7 @@
 </p>
 
 
-Find a Friend API é uma API desenvolvida em Node.js para adoção de pets de estimação.
+Find a Friend API é uma API desenvolvida em Node.js para a adoção de pets de estimação.
 
 ___
 
